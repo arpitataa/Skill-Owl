@@ -4,6 +4,7 @@ import HighlightText from "../components/core/HomePage/HighlightText"
 import {FaArrowRight} from "react-icons/fa"
 import CTAButton from "../components/core/HomePage/CTAButton"
 import Banner from "../assets/Images/banner.mp4"
+import CodeBlocks from '../components/core/HomePage/CodeBlocks'
 const Home = () => {
   return (
     <div>
@@ -41,7 +42,7 @@ const Home = () => {
 
             </div>
 
-            <div className=' mx-3 my-10 shadow-blue-200 '>
+            <div className=' mx-3 my-12 shadow-blue-200 '>
                 <video
                 muted
                 loop
@@ -50,7 +51,39 @@ const Home = () => {
             <source src={Banner} type= "video/mp4"/>
                 </video>
             </div>
-        </div>
+
+            {/*code section 1 */}
+            <div>
+                <CodeBlocks 
+                    position={"lg:flex-row"}
+                    heading={
+                        <div className='text-4xl font-bold'> 
+                          Unlock Your 
+                          <HighlightText text={"Coding Potential"} />
+                          with our  online courses
+                        </div>
+                    }
+                    subheading={"Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."}
+                    ctabtn1={
+                        {
+                            btnText: "Try it Yourself",
+                            linkto:"/signup",
+                            active:true
+                        }
+                    }
+                    ctabtn2={
+                        {
+                            btnText: "Learn More",
+                            linkto:"/login",
+                            active:false
+                        }
+                    }
+
+                    codeblock={`<!DOCTYPE html> \n <html>\n <head>\n<title>Example</title>`}
+                    codeColour={"text-yellow-25"}
+                />
+            </div>
+            
 
         {/* section 2 */}
 

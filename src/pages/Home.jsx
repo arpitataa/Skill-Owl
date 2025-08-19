@@ -5,6 +5,8 @@ import {FaArrowRight} from "react-icons/fa"
 import CTAButton from "../components/core/HomePage/CTAButton"
 import Banner from "../assets/Images/banner.mp4"
 import CodeBlocks from '../components/core/HomePage/CodeBlocks'
+
+
 const Home = () => {
   return (
     <div>
@@ -25,7 +27,7 @@ const Home = () => {
 
             <div className='text-center text-4xl font-semibold mt-7'>
                 Empower Your Future with 
-                <HighlightText text={"Coding Skills"} />
+                <HighlightText text={"Coding Skills "} />
             </div>
 
             <div className=' mt-4 w-[90%] text-center text-lg font-bold text-richblack-300'>
@@ -42,13 +44,15 @@ const Home = () => {
 
             </div>
 
-            <div className=' mx-3 my-12 shadow-blue-200 '>
+            <div className=' mx-3 my-12 shadow-blue-200 w-full max-w-[1000px]'>
                 <video
                 muted
                 loop
                 autoPlay
+                className="rounded-lg shadow-lg w-full"
+                aria-label="Promotional banner video about coding courses"
                 >
-            <source src={Banner} type= "video/mp4"/>
+                <source src={Banner} type= "video/mp4"/>
                 </video>
             </div>
 
@@ -79,11 +83,42 @@ const Home = () => {
                         }
                     }
 
-                    codeblock={`<!DOCTYPE html> \n <html>\n <head>\n<title>Example</title>`}
+                    codeblock={`<!DOCTYPE html>\n<html>\n<head>\n<title>Example</title>\n</head>\n<body>\n<h1>Hello, world!</h1>\n</body>\n</html>`}
                     codeColour={"text-yellow-25"}
                 />
             </div>
-            
+            {/* code section 2*/}
+            <div>
+                <CodeBlocks 
+                    position={"lg:flex-row-reverse"}
+                    heading={
+                        <div className='text-4xl font-bold'> 
+                          Unlock Your 
+                          <HighlightText text={"Coding Potential"} />
+                          with our  online courses
+                        </div>
+                    }
+                    subheading={"Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."}
+                    ctabtn1={
+                        {
+                            btnText: "Try it Yourself",
+                            linkto:"/signup",
+                            active:true
+                        }
+                    }
+                    ctabtn2={
+                        {
+                            btnText: "Learn More",
+                            linkto:"/login",
+                            active:false
+                        }
+                    }
+
+                    codeblock={`<!DOCTYPE html>\n<html>\n<head>\n<title>Example</title>\n</head>\n<body>\n<h1>Hello, world!</h1>\n</body>\n</html>`}
+                    codeColour={"text-yellow-25"}
+                />
+            </div>
+        </div>  
 
         {/* section 2 */}
 

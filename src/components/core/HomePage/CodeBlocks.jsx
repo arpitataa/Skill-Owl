@@ -2,10 +2,12 @@ import React from 'react'
 import CTAButton from "../HomePage/CTAButton"
 import HighlightText from './HighlightText'
 import { FaArrowRight} from "react-icons/fa"
+import {TypeAnimation} from 'react-type-animation';
 
 const CodeBlocks = ({
-    position,heading,subheading,ctabtn1,ctabtn2,codeblock,backgroundGradient,
-    codeColour }) => {
+    position,heading,subheading,
+    ctabtn1,ctabtn2,codeblock,backgroundGradient,
+    codeColor }) => {
   return (
     <div className={`flex ${position} my-20 justify-between gap-10`}>
         {/* section 1*/}
@@ -28,10 +30,9 @@ const CodeBlocks = ({
                     </div>
                 </CTAButton>
             </div>
-
         </div>
         {/* section 2*/}
-            <div>
+            <div className='h-fit flex flex-row text-[10px] w-[100%] py-4 lg:w-[500px]' >
                 {/*add gradient */}
 
                 <div className='text-center flex flex-col w-[10%] text-richblack-400 font-inter font-bold'>
@@ -48,9 +49,19 @@ const CodeBlocks = ({
                     <p>11</p>
                 </div>
 
-            <div className=`w-[90%] flex flex-col gap-2 font-bold font-mono ${codeColor} pr-2`>
-
-            </div>
+                <div className={`w-[90%] flex flex-col gap-2 font-bold font-mono ${codeColor} pr-2`}>
+                <TypeAnimation
+                sequence={[codeblock,2000,""]}
+                repeat={Infinity}
+                cursor= {true}
+                omitDeletionAnimation={true}
+                style={
+                    {
+                        whiteSpace:"pre-line",
+                        display:"block"
+                    }
+                }
+                />
 
             </div>
 

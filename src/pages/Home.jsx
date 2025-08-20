@@ -5,7 +5,11 @@ import {FaArrowRight} from "react-icons/fa"
 import CTAButton from "../components/core/HomePage/CTAButton"
 import Banner from "../assets/Images/banner.mp4"
 import CodeBlocks from '../components/core/HomePage/CodeBlocks'
-
+import TimelineSection from "../components/core/HomePage/TimelineSection"
+import LearningLanguageSection from "../components/core/HomePage/LearningLanguageSection"
+import InstructorSection from '../components/core/HomePage/InstructorSection'
+import Footer from "../components/common/Footer"
+import ExploreMore from "../components/core/HomePage/ExploreMore"
 
 const Home = () => {
   return (
@@ -57,7 +61,7 @@ const Home = () => {
             </div>
 
             {/*code section 1 */}
-            <div>
+            <div className='w-full max-w-[1000px]'>
                 <CodeBlocks 
                     position={"lg:flex-row"}
                     heading={
@@ -88,7 +92,7 @@ const Home = () => {
                 />
             </div>
             {/* code section 2*/}
-            <div>
+            <div className='w-full max-w-[1000px]'>
                 <CodeBlocks 
                     position={"lg:flex-row-reverse"}
                     heading={
@@ -118,14 +122,81 @@ const Home = () => {
                     codeColour={"text-yellow-25"}
                 />
             </div>
+
+            <ExploreMore />
         </div>  
 
         {/* section 2 */}
+        <div className='bg-pure-greys-5 text-richblack-700'>
+            <div className='homepage_bg h-[310px]'>
+
+                <div className='w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto'>
+                    <div className="h-[150px]"></div>
+
+                    <div className='flex flex-row gap-7 text-white'>
+                        <CTAButton active={true} linkto={"/signup"} >
+                        <div className='flex items-center gap-3'>
+                            Explore Full Catalog
+                            <FaArrowRight />
+                        </div>
+
+                        </CTAButton>
+                        <CTAButton active={false} linkto={"/signup"}>
+                        <div>
+                            Learn More
+                        </div>
+
+                        </CTAButton>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div className='mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between
+            gap-7'>
+
+                <div className='flex flex-row gap-5 mb-10 mt-[95px] w-full max-w-[1000px]'>
+                    <div className='text-4xl font-semibold w-[45%]' >
+                        Get the skills you need for a 
+                        <HighlightText text={"job that is in demand"} />
+                    </div>
+
+                    <div className='flex flex-col gap-10 w-[40%] items-start'>
+                    <div className='text-[16px]' >
+                        The modern SkillOwl dictates its own terms.
+                        Today, being a competitive specialist requires more than professional skills.
+                    </div>
+                    <CTAButton active={true} linkto={"/signup"}>
+                        <div>
+                            Learn More
+                        </div>
+                    </CTAButton>
+                </div>
+                </div>
+
+                <TimelineSection />
+                <LearningLanguageSection />
+
+                
+            </div>
+
+            
+        </div>
 
         {/* section 3 */}
+        <div className='w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-8
+        bg-richblack-900 text-white'>
+            <InstructorSection />
+            <h2 className='text-center text-4xl font-semibold mt-10'>Review from Other Learners</h2>
+
+            {/* Review Slider here*/}
+        </div>
+
 
 
         {/* footer */}
+        <Footer />
 
     </div>
   )

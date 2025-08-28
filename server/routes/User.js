@@ -27,8 +27,8 @@ router.post("/reset-password-token", resetPasswordToken)
 // Route for resetting user's password after verification
 router.post("/reset-password", resetPassword)
 
-//for google login
-router.post("/google-login", googleLogin);
+// //for google login
+// router.post("/google-login", googleLogin);
 
 
 // Export the router for use in the main application

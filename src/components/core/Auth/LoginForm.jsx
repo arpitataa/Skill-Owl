@@ -2,8 +2,6 @@ import { useState } from "react"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
-import GoogleSignIn from "./GoogleSignIn";
-
 import { login } from "../../../services/operations/authAPI"
 
 function LoginForm() {
@@ -90,14 +88,6 @@ function LoginForm() {
       >
         Sign In
       </button>
-      {/* Divider */}
-      <div className="flex items-center gap-2 my-4">
-        <hr className="flex-1 border-white" />
-        <span className="text-sm text-white">OR</span>
-        <hr className="flex-1 border-white" />
-      </div>
-      {/* Google login button */}
-      <GoogleSignIn />
     </form>
   )
 }

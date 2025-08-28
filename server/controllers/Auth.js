@@ -190,7 +190,7 @@ exports.signup = async(req,res) => {
 
 }
 
-//login
+//login 
 exports.login = async(req,res) => {
     try{
         //get data from body
@@ -315,50 +315,50 @@ exports.changePassword = async(req,res) => {
     }
 }
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-exports.googleLogin = async(req,res) => {
-    try {
-    const { token } = req.body; // token from frontend
-    if (!token) {
-      return res.status(400).json({ success: false, message: "No token provided" });
-    }
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
+// const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+// exports.googleLogin = async(req,res) => {
+//     try {
+//     const { token } = req.body; // token from frontend
+//     if (!token) {
+//       return res.status(400).json({ success: false, message: "No token provided" });
+//     }
+//     const ticket = await client.verifyIdToken({
+//       idToken: token,
+//       audience: process.env.GOOGLE_CLIENT_ID,
+//     });
 
-    const { email, name } = ticket.getPayload();
-    // Check if user already exists
-    let user = await User.findOne({ email });
-    if (!user) {
-      // Create new user without password
-      user = await User.create({
-        email,
-        name,
-        password: null, // password not needed for Google
-        accountType: "Student", // or default
-      });
-    }
+//     const { email, name } = ticket.getPayload();
+//     // Check if user already exists
+//     let user = await User.findOne({ email });
+//     if (!user) {
+//       // Create new user without password
+//       user = await User.create({
+//         email,
+//         name,
+//         password: null, // password not needed for Google
+//         accountType: "Student", // or default
+//       });
+//     }
 
-    // Create JWT
-    const payload = { email: user.email, id: user._id, accountType: user.accountType };
-    const authToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2h" });
+//     // Create JWT
+//     const payload = { email: user.email, id: user._id, accountType: user.accountType };
+//     const authToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2h" });
 
-    // Cookie
-    const options = {
-      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-      httpOnly: true,
-    };
+//     // Cookie
+//     const options = {
+//       expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+//       httpOnly: true,
+//     };
 
-    res.cookie("token", authToken, options).status(200).json({
-      success: true,
-      token: authToken,
-      user,
-      message: "Google login successful",
-    });
-  } catch (error) {
-    console.error("Google login error:", error);
-    res.status(500).json({ success: false, message: "Google login failed" });
-  }
+//     res.cookie("token", authToken, options).status(200).json({
+//       success: true,
+//       token: authToken,
+//       user,
+//       message: "Google login successful",
+//     });
+//   } catch (error) {
+//     console.error("Google login error:", error);
+//     res.status(500).json({ success: false, message: "Google login failed" });
+//   }
 
-}
+// }

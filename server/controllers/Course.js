@@ -7,16 +7,20 @@ const {uploadImageToCloudinary} = require("../utils/imageUploader");
 //create course handler
 exports.createCourse = async (req,res) => {
     try{
-        //data fetchi
+        //data fetch
         const userId = req.user.id;
-        let {courseName,courseDescription,whatYouWillLearn,instructions,price,category,tags,status} = req.body;
+        let {courseName,courseDescription,whatYouWillLearn,instructions,price,category,
+            //tags,
+            status} = req.body;
 
         //we received obj id of category only
         //fetch file / thumbnail
-        const thumbnail = req.files.thumbnailImage;
+        //const thumbnail = req.files.thumbnailImage;
         
         //validation
-        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !tags){
+        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category 
+            // || !tags
+        ){
             return res.status(400).json({
                 success:false,
                 message:"All fields are required",
@@ -59,7 +63,7 @@ exports.createCourse = async (req,res) => {
         }
 
         //upload image to cloudinary - response is url
-        const thumbnailImage = await uploadImageToCloudinary(thumbnail,process.env.FOLDER_NAME);
+       // const thumbnailImage = await uploadImageToCloudinary(thumbnail,process.env.FOLDER_NAME);
 
         //create course entry in db
         const newCourse = await Course.create({
@@ -68,9 +72,9 @@ exports.createCourse = async (req,res) => {
             whatYouWillLearn,
             price,
             category:categoryDetails._id, //or only tag as we are getting obj id from req
-            tags,
+           // tags,
             instructions,status: status,
-            thumbnail: thumbnailImage.secure_url,
+            //thumbnail: thumbnailImage.secure_url,
 
         })
 

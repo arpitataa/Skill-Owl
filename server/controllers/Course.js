@@ -2,7 +2,10 @@ const Course = require("../models/Course");
 const Category = require("../models/Category");
 const User = require("../models/User");
 const Section = require("../models/Section");
+const SubSection = require("../models/SubSection");
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
+const CourseProgress = require("../models/CourseProgress")
+const { convertSecondsToDuration } = require("../utils/secToDuration")
 
 //create course handler
 exports.createCourse = async (req,res) => {
@@ -72,7 +75,7 @@ exports.createCourse = async (req,res) => {
             whatYouWillLearn,
             price,
             category:categoryDetails._id, //or only tag as we are getting obj id from req
-           tag,
+            tags:tag,
             instructions,status: status,
             thumbnail: thumbnailImage.secure_url,
 
@@ -140,15 +143,14 @@ exports.editCourse = async (req, res) => {
     }
 
     // Update only the fields that are present in the request body
-    for (const key in updates) {
-      if (updates.hasOwnProperty(key)) {
-        if (key === "tag" || key === "instructions") {
-          course[key] = JSON.parse(updates[key])
-        } else {
-          course[key] = updates[key]
-        }
-      }
+  Object.keys(updates).forEach((key) => {
+    if (key === "tags" || key === "instructions") {
+      course[key] = JSON.parse(updates[key])
+    } 
+    else {
+      course[key] = updates[key]
     }
+})
 
     await course.save()
 
@@ -156,7 +158,7 @@ exports.editCourse = async (req, res) => {
       _id: courseId,
     })
       .populate({
-        path: "instructor",
+        path: "Instructor",
         populate: {
           path: "additionalDetails",
         },
@@ -166,7 +168,7 @@ exports.editCourse = async (req, res) => {
       .populate({
         path: "courseContent",
         populate: {
-          path: "subSection",
+          path: "SubSection",
         },
       })
       .exec()
@@ -264,4 +266,174 @@ exports.getCourseDetails = async(req,res) => {
             message:error.message
         })
     }
+}
+
+
+exports.getFullCourseDetails = async (req, res) => {
+  try {
+    const { courseId } = req.body
+    const userId = req.user.id
+    const courseDetails = await Course.findOne({
+      _id: courseId,
+    })
+      .populate({
+        path: "Instructor",
+        populate: {
+          path: "additionalDetails",
+        },
+      })
+      .populate("category")
+      .populate("ratingAndReviews")
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "SubSection",
+        },
+      })
+      .exec()
+
+    let courseProgressCount = await CourseProgress.findOne({
+      courseID: courseId,
+      userId: userId,
+    })
+
+    console.log("courseProgressCount : ", courseProgressCount)
+
+    if (!courseDetails) {
+      return res.status(400).json({
+        success: false,
+        message: `Could not find course with id: ${courseId}`,
+      })
+    }
+
+    // if (courseDetails.status === "Draft") {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: `Accessing a draft course is forbidden`,
+    //   });
+    // }
+
+    let totalDurationInSeconds = 0
+    courseDetails.courseContent.forEach((content) => {
+      content.SubSection.forEach((subSection) => {
+        const timeDurationInSeconds = parseInt(subSection.timeDuration)
+        totalDurationInSeconds += timeDurationInSeconds
+      })
+    })
+
+    const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        courseDetails,
+        totalDuration,
+        completedVideos: courseProgressCount?.completedVideos
+          ? courseProgressCount?.completedVideos
+          : [],
+      },
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    })
+  }
+}
+
+// Get a list of Course for a given Instructor
+exports.getInstructorCourses = async (req, res) => {
+  try {
+    // Get the instructor ID from the authenticated user or request body
+    const instructorId = req.user.id
+
+    // Find all courses belonging to the instructor
+    const instructorCourses = await Course.find({
+      Instructor: instructorId,
+    }).sort({ createdAt: -1 })
+    .populate({
+      path: "courseContent",
+      populate: 
+        { path: "SubSection" },
+      })
+      .exec()
+
+    //attaching duration of each course:
+    const coursesWithDuration = instructorCourses.map( (course) => {
+      let totalDurationInSeconds = 0
+      course.courseContent.forEach(content => {
+        content.SubSection.forEach(subSection => {
+          const timeDurationInSeconds = parseInt(subSection.timeDuration || 0)
+          totalDurationInSeconds += timeDurationInSeconds
+        })
+      })
+      return {
+        ...course.toObject(),
+        totalDuration: convertSecondsToDuration(totalDurationInSeconds)
+      }
+    })
+
+    // Return the instructor's courses
+    res.status(200).json({
+      success: true,
+      data:coursesWithDuration
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve instructor courses",
+      error: error.message,
+    })
+  }
+}
+// Delete the Course
+exports.deleteCourse = async (req, res) => {
+  try {
+    const { courseId } = req.body
+
+    // Find the course
+    const course = await Course.findById(courseId)
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" })
+    }
+
+    // Unenroll students from the course
+    const studentsEnrolled = course.studentsEnrolled
+    for (const studentId of studentsEnrolled) {
+      await User.findByIdAndUpdate(studentId, {
+        $pull: { courses: courseId },
+      })
+    }
+
+    // Delete sections and sub-sections
+    const courseSections = course.courseContent
+    for (const sectionId of courseSections) {
+      // Delete sub-sections of the section
+      const section = await Section.findById(sectionId)
+      if (section) {
+        const subSections = section.SubSection
+        for (const subSectionId of subSections) {
+          await SubSection.findByIdAndDelete(subSectionId)
+        }
+      }
+      // Delete the section
+      await Section.findByIdAndDelete(sectionId)
+    }
+
+    // Delete the course
+    await Course.findByIdAndDelete(courseId)
+
+    return res.status(200).json({
+      success: true,
+      message: "Course deleted successfully",
+    })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    })
+  }
 }

@@ -43,7 +43,7 @@ export default function SubSectionModal({
       setValue("lectureDesc", modalData.description)
       setValue("lectureVideo", modalData.videoUrl)
     }
-  }, [])
+  }, [modalData, view, edit, setValue])
 
   // detect whether form is updated or not
   const isFormUpdated = () => {
@@ -74,7 +74,7 @@ export default function SubSectionModal({
       formData.append("description", currentValues.lectureDesc)
     }
     if (currentValues.lectureVideo !== modalData.videoUrl) {
-      formData.append("video", currentValues.lectureVideo)
+      formData.append("videoUrl", currentValues.lectureVideo)
     }
     setLoading(true)
     const result = await updateSubSection(formData, token)

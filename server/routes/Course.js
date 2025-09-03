@@ -3,7 +3,9 @@ const router = express.Router()
 
 //import the controllers iiii
 //course controllers
-const { createCourse, showAllCourses, getCourseDetails } = require("../controllers/Course")
+const { createCourse, showAllCourses, getCourseDetails , editCourse, getFullCourseDetails , getInstructorCourses ,
+    deleteCourse
+ } = require("../controllers/Course")
 //categories controllers
 const { showAllCategories,createCategory, categoryPageDetails } = require("../controllers/Category")
 //sections controllers
@@ -41,13 +43,13 @@ router.post("/deleteSubSection", auth, isInstructor, deleteSubSection)
 router.get("/getAllCourses", showAllCourses)
 // get details for a specific course
 router.post("/getCourseDetails", getCourseDetails)
-// router.post("/getFullCourseDetails", auth, getFullCourseDetails)
-// // Edit Course routes
-// router.post("/editCourse", auth, isInstructor, editCourse)
-// // Get all Courses Under a Specific Instructor
-// router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
-// // Delete a Course
-// router.delete("/deleteCourse", deleteCourse)
+router.post("/getFullCourseDetails", auth, getFullCourseDetails)
+// Edit Course routes
+router.post("/editCourse", auth, isInstructor, editCourse)
+// Get all Courses Under a Specific Instructor
+router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
+// Delete a Course
+router.delete("/deleteCourse", deleteCourse)
 
 // category can only be created by admin
 

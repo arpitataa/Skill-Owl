@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { FiUploadCloud } from "react-icons/fi"
 import ReactPlayer from "react-player"
@@ -13,23 +13,27 @@ export default function Upload({
   viewData = null,   // existing URL when viewing
   editData = null,   // existing URL when editing
 }) {
-  const [selectedFile, setSelectedFile] = useState(null)     // File | null
-  const [previewSource, setPreviewSource] = useState(
-    viewData ? viewData : editData ? editData : ""
-  ) // string (data URL / blob URL / remote URL)
-  const [blobURL, setBlobURL] = useState(null)               // keep track to revoke
-  //const inputRef = useRef(null)
+  const [selectedFile, setSelectedFile] = useState(null)
+  const [previewSource, setPreviewSource] = useState("")
+  const [blobURL, setBlobURL] = useState(null)
 
-  // register field once
+  useEffect(() => {
+    if (viewData) {
+      setPreviewSource(viewData)
+    } else if (editData) {
+      setPreviewSource(editData)
+    } else {
+      setPreviewSource("")
+    }
+  }, [viewData, editData])
+
   useEffect(() => {
     register(name, { required: true })
-    // cleanup any blob URL on unmount
     return () => {
       if (blobURL) URL.revokeObjectURL(blobURL)
     }
   }, [])
 
-  // reflect selection to RHF
   useEffect(() => {
     setValue(name, selectedFile || null, { shouldValidate: true })
   }, [name, selectedFile, setValue])
@@ -40,19 +44,16 @@ export default function Upload({
 
     setSelectedFile(file)
 
-    // clean up prior blob url if any
     if (blobURL) {
       URL.revokeObjectURL(blobURL)
       setBlobURL(null)
     }
 
     if (video) {
-      // For videos, prefer a blob URL (lets <video> show correct duration)
       const url = URL.createObjectURL(file)
       setPreviewSource(url)
       setBlobURL(url)
     } else {
-      // For images, use a Data URL via FileReader (universally reliable)
       const reader = new FileReader()
       reader.onloadend = () => setPreviewSource(reader.result)
       reader.readAsDataURL(file)
@@ -65,10 +66,11 @@ export default function Upload({
       : { "image/*": [".jpeg", ".jpg", ".png", ".gif", ".webp", ".svg"] },
     multiple: false,
     onDrop,
-    noClick: true, // we’ll handle click manually to avoid issues inside preview area
+    noClick: true,
   })
 
-  const isBlob = typeof previewSource === "string" && previewSource.startsWith("blob:")
+  const isBlob =
+    typeof previewSource === "string" && previewSource.startsWith("blob:")
 
   const clearSelection = () => {
     setSelectedFile(null)
@@ -92,29 +94,23 @@ export default function Upload({
           isDragActive ? "bg-richblack-600" : "bg-richblack-700"
         } flex min-h-[250px] w-full items-center justify-center rounded-md border-2 border-dotted border-richblack-500`}
       >
-        {/* Hidden input for dropzone */}
-        <input {...getInputProps()} 
-        //ref={inputRef}
-         />
+        <input {...getInputProps()} />
 
         {previewSource ? (
           <div className="flex w-full flex-col p-4">
             {!video ? (
-              // IMAGES: always <img>
               <img
                 src={previewSource}
                 alt="Preview"
                 className="w-full max-h-80 rounded-md object-contain"
               />
             ) : isBlob ? (
-              // VIDEOS (local): use native <video>
               <video
                 src={previewSource}
                 controls
                 className="w-full h-[300px] rounded-md"
               />
             ) : (
-              // VIDEOS (remote URL): use ReactPlayer
               <ReactPlayer
                 url={previewSource}
                 controls
@@ -123,7 +119,7 @@ export default function Upload({
               />
             )}
 
-            {/* Actions (only when not in view mode) */}
+            {/* 🔑 Only show replace/remove if in Edit mode */}
             {!viewData && (
               <div className="mt-3 flex items-center gap-4">
                 <button
@@ -138,31 +134,33 @@ export default function Upload({
                   onClick={open}
                   className="text-sm text-yellow-50 underline"
                 >
-                  Choose another file
+                  {editData ? "Replace file" : "Choose another file"}
                 </button>
               </div>
             )}
           </div>
         ) : (
-          // Empty state / drop prompt
-          <button
-            type="button"
-            onClick={open}
-            className="flex w-full flex-col items-center p-6 focus:outline-none"
-          >
-            <div className="grid aspect-square w-14 place-items-center rounded-full bg-pure-greys-800">
-              <FiUploadCloud className="text-2xl text-yellow-50" />
-            </div>
-            <p className="mt-2 max-w-[260px] text-center text-sm text-richblack-200">
-              Drag & drop a {video ? "video" : "image"} here, or{" "}
-              <span className="font-semibold text-yellow-50">browse</span> to
-              choose a file
-            </p>
-            <ul className="mt-6 flex list-disc justify-between space-x-8 text-center text-xs text-richblack-200">
-              <li>Aspect ratio 16:9</li>
-              <li>Recommended size 1024×576</li>
-            </ul>
-          </button>
+          // Empty state only in Add/Edit (not View)
+          !viewData && (
+            <button
+              type="button"
+              onClick={open}
+              className="flex w-full flex-col items-center p-6 focus:outline-none"
+            >
+              <div className="grid aspect-square w-14 place-items-center rounded-full bg-pure-greys-800">
+                <FiUploadCloud className="text-2xl text-yellow-50" />
+              </div>
+              <p className="mt-2 max-w-[260px] text-center text-sm text-richblack-200">
+                Drag & drop a {video ? "video" : "image"} here, or{" "}
+                <span className="font-semibold text-yellow-50">browse</span> to
+                choose a file
+              </p>
+              <ul className="mt-6 flex list-disc justify-between space-x-8 text-center text-xs text-richblack-200">
+                <li>Aspect ratio 16:9</li>
+                <li>Recommended size 1024×576</li>
+              </ul>
+            </button>
+          )
         )}
       </div>
 

@@ -91,7 +91,7 @@ export default function CourseBuilderForm() {
       return
     }
     if (
-      course.courseContent.some((section) => section.subSection.length === 0)
+      course.courseContent.some((section) => section.SubSection.length === 0)
     ) {
       toast.error("Please add atleast one lecture in each section")
       return

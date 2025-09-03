@@ -10,16 +10,16 @@ exports.createCourse = async (req,res) => {
         //data fetch
         const userId = req.user.id;
         let {courseName,courseDescription,whatYouWillLearn,instructions,price,category,
-            //tags,
+            tag,
             status} = req.body;
 
         //we received obj id of category only
         //fetch file / thumbnail
-        //const thumbnail = req.files.thumbnailImage;
+        const thumbnail = req.files.thumbnailImage;
         
         //validation
         if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category 
-            // || !tags
+            || !tag || !thumbnail
         ){
             return res.status(400).json({
                 success:false,
@@ -63,7 +63,7 @@ exports.createCourse = async (req,res) => {
         }
 
         //upload image to cloudinary - response is url
-       // const thumbnailImage = await uploadImageToCloudinary(thumbnail,process.env.FOLDER_NAME);
+       const thumbnailImage = await uploadImageToCloudinary(thumbnail,process.env.FOLDER_NAME);
 
         //create course entry in db
         const newCourse = await Course.create({
@@ -72,9 +72,9 @@ exports.createCourse = async (req,res) => {
             whatYouWillLearn,
             price,
             category:categoryDetails._id, //or only tag as we are getting obj id from req
-           // tags,
+           tag,
             instructions,status: status,
-            //thumbnail: thumbnailImage.secure_url,
+            thumbnail: thumbnailImage.secure_url,
 
         })
 
@@ -117,11 +117,81 @@ exports.createCourse = async (req,res) => {
     }
 }
 
+// edit course details
+exports.editCourse = async (req, res) => {
+  try {
+    const { courseId } = req.body
+    const updates = req.body
+    const course = await Course.findById(courseId)
+
+    if (!course) {
+      return res.status(404).json({ error: "Course not found" })
+    }
+
+    // If Thumbnail Image is found, update it
+    if (req.files) {
+      console.log("thumbnail update")
+      const thumbnail = req.files.thumbnailImage
+      const thumbnailImage = await uploadImageToCloudinary(
+        thumbnail,
+        process.env.FOLDER_NAME
+      )
+      course.thumbnail = thumbnailImage.secure_url
+    }
+
+    // Update only the fields that are present in the request body
+    for (const key in updates) {
+      if (updates.hasOwnProperty(key)) {
+        if (key === "tag" || key === "instructions") {
+          course[key] = JSON.parse(updates[key])
+        } else {
+          course[key] = updates[key]
+        }
+      }
+    }
+
+    await course.save()
+
+    const updatedCourse = await Course.findOne({
+      _id: courseId,
+    })
+      .populate({
+        path: "instructor",
+        populate: {
+          path: "additionalDetails",
+        },
+      })
+      .populate("category")
+      .populate("ratingAndReviews")
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+        },
+      })
+      .exec()
+
+    res.json({
+      success: true,
+      message: "Course updated successfully",
+      data: updatedCourse,
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    })
+  }
+}
 
 //getAllCourses handler
 exports.showAllCourses = async(req,res) => {
     try{
-        const allCourses = await Course.find({},{
+        const allCourses = await Course.find({
+            status: "Published"
+        },{
             courseName:true,
             price:true,
             thumbnail:true,
@@ -179,12 +249,13 @@ exports.getCourseDetails = async(req,res) => {
                 message:`Could not find course with ${courseId}`,
             })
         }
+
         //return response
         return res.status(200).json({
             success:true,
             message:"Course details fetched successfully",
             data:courseDetails
-        })
+         })
     }
     catch(error){
         console.log(error);

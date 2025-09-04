@@ -13,7 +13,7 @@ exports.createCourse = async (req,res) => {
         //data fetch
         const userId = req.user.id;
         let {courseName,courseDescription,whatYouWillLearn,instructions,price,category,
-            tag,
+            tags,
             status} = req.body;
 
         //we received obj id of category only
@@ -22,7 +22,7 @@ exports.createCourse = async (req,res) => {
         
         //validation
         if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category 
-            || !tag || !thumbnail
+            || !tags || !thumbnail
         ){
             return res.status(400).json({
                 success:false,
@@ -75,7 +75,7 @@ exports.createCourse = async (req,res) => {
             whatYouWillLearn,
             price,
             category:categoryDetails._id, //or only tag as we are getting obj id from req
-            tags:tag,
+            tags:JSON.parse(tags),
             instructions,status: status,
             thumbnail: thumbnailImage.secure_url,
 
@@ -97,7 +97,7 @@ exports.createCourse = async (req,res) => {
             {_id:categoryDetails._id},
             {
                 $push: {
-                    courses: newCourse._id,
+                    course: newCourse._id,
                 }
             }
         )

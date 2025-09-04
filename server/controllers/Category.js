@@ -35,7 +35,11 @@ exports.createCategory = async(req,res) => {
 //getAllTags handler
 exports.showAllCategories = async(req,res) => {
     try{
-        const allCategory = await Category.find({},{name:true,description:true});
+        const allCategory = await Category.find({},{name:true,description:true})
+        .populate({
+            path:"course",
+            match: { status: "Published" }    
+        }).exec();
         return res.status(200).json({
             success:true,
             message:"All categories returned successfully",

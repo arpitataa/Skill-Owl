@@ -225,8 +225,7 @@ exports.getCourseDetails = async(req,res) => {
         //get id
         const {courseId} = req.body;
         //get course details
-        const courseDetails = await Course.find(
-            {_id:courseId})
+        const courseDetails = await Course.findOne({_id: courseId})
             .populate(
                 {
                     path:"Instructor",
@@ -240,7 +239,8 @@ exports.getCourseDetails = async(req,res) => {
             .populate({
                 path:"courseContent",
                 populate:{
-                    path:"SubSection"
+                    path:"SubSection",
+                    select: "-videoUrl"
                 }
             })
             .exec();
@@ -252,11 +252,23 @@ exports.getCourseDetails = async(req,res) => {
             })
         }
 
+        let totalDurationInSeconds = 0
+            courseDetails.courseContent.forEach((content) => {
+              content.SubSection.forEach((subSection) => {
+                const timeDurationInSeconds = parseInt(subSection.timeDuration)
+                totalDurationInSeconds += timeDurationInSeconds
+              })
+            })
+        
+            const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
         //return response
         return res.status(200).json({
             success:true,
             message:"Course details fetched successfully",
-            data:courseDetails
+            data: 
+            {courseDetails,
+              totalDuration}
          })
     }
     catch(error){

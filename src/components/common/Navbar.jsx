@@ -40,6 +40,10 @@ function Navbar(){
     const matchRoute = (route) => {
         return matchPath({path:route},location.pathname)
     }
+
+    const slugify = (name) =>
+        name.replace(/\s+/g, "-").replace(/\//g, "-").toLowerCase();
+
   return (
     <div className={`flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${
         location.pathname !== "/" ? "bg-richblack-800" : ""
@@ -89,10 +93,7 @@ function Navbar(){
                                             {subLinks?.filter((subLink) => subLink?.course?.length > 0)
                                             ?.map((subLink, i) => (
                                                 <Link
-                                                    to={`/catalog/${subLink.name
-                                                        .split(" ")
-                                                        .join("-")
-                                                        .toLowerCase()}`}
+                                                    to={`/catalog/${slugify(subLink.name)}`}
                                                         className="rounded-lg bg-transparent py-4 pl-4
                                                          hover:bg-richblack-50"
                                                         key={i}

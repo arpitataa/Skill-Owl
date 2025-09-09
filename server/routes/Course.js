@@ -14,6 +14,8 @@ const { createSection, updateSection, deleteSection } = require("../controllers/
 const { createSubSection, updateSubSection, deleteSubSection } = require("../controllers/Subsection")
 // rating controllers
 const { createRating, getAverageRating, getAllRating } = require("../controllers/RatingAndReview")
+//course progress controllers
+const {updateCourseProgress} = require("../controllers/courseProgress")
 
 //import middlewares 
 const { auth, isInstructor, isStudent, isAdmin } = require("../middleware/auth")
@@ -50,9 +52,11 @@ router.post("/editCourse", auth, isInstructor, editCourse)
 router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
 // Delete a Course
 router.delete("/deleteCourse", deleteCourse)
+//course progress
+router.post("/updateCourseProgress", auth, isStudent,updateCourseProgress)
+
 
 // category can only be created by admin
-
 router.post("/createCategory", auth, isAdmin, createCategory)
 router.get("/showAllCategories", showAllCategories)
 router.post("/getCategoryPageDetails", categoryPageDetails)

@@ -253,7 +253,7 @@ export default function CourseInformationForm() {
         getValues={getValues}
       />
       {/* Course Thumbnail Image */}
-      <Upload
+      <Upload 
         name="courseImage"
         label="Course Thumbnail"
         register={register}

@@ -22,7 +22,7 @@ const CourseSlider = ({Courses}) => {
           modules={[FreeMode, Pagination, Autoplay]}
           breakpoints={{
           1024: {
-            slidesPerView: 3,
+            slidesPerView: 4,
           },
         }}
         className="max-h-[30rem]"

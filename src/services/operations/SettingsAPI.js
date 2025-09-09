@@ -4,7 +4,7 @@ import { setUser } from "../../slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { settingsEndpoints } from "../apis"
 import { logout } from "./authAPI"
-
+ 
 const {
   UPDATE_DISPLAY_PICTURE_API,
   UPDATE_PROFILE_API,

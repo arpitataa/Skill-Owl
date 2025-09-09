@@ -11,22 +11,22 @@ exports.updateProfile = async(req,res) => {
     try{
         //data fetch
         const {
-          firstName = "",
-          lastName = "",
-          dateOfBirth = "",
-          about = "",
-          contactNumber = "",
-          gender = "",} = req.body;
+          firstName,
+          lastName,
+          dateOfBirth,
+          about,
+          contactNumber,
+          gender,} = req.body;
 
         //get userId from req(passed from login middleware)
         const id = req.user.id;
-        //validate
-        if(!contactNumber || !id){
-            return res.status(400).json({
-                success:false,
-                message:"Fill required fields"
-            })
-        }
+        // //validate
+        // if(!contactNumber || !id){
+        //     return res.status(400).json({
+        //         success:false,
+        //         message:"Fill required fields"
+        //     })
+        // }
         //find profile for user
         const userDetails = await User.findById(id);
         const profileId = userDetails.additionalDetails;

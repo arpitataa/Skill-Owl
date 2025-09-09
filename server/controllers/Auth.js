@@ -5,10 +5,8 @@ const otpGenerator = require("otp-generator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mailSender = require("../utils/mailSender");
-const { passwordUpdate } = require("../mail/templates/passwordUpdate");
-const { OAuth2Client } = require("google-auth-library");
-// const mailSender = require("../utils/mailSender")
-
+const { passwordUpdated } = require("../mail/templates/passwordUpdated");
+// const { OAuth2Client } = require("google-auth-library");
 require("dotenv").config();
 //sendotp ->otp generation will be here.
 exports.sendOTP = async(req,res) => {
@@ -203,7 +201,9 @@ exports.login = async(req,res) => {
             });
         }
         //check if user is registered or not
-        const user = await User.findOne({email});
+        const user = await User.findOne({email})
+                    .populate("additionalDetails")
+                    .exec();
         if(!user) {
             return res.status(401).json({
                 success:false,
@@ -257,23 +257,25 @@ exports.login = async(req,res) => {
 exports.changePassword = async(req,res) => {
     try{
         //fetch data
-        // const {email} = req.user.email; 
-        const{email,oldPassword,newPassword,confirmNewPassword} = req.body;
+        const userId = req.user.id; 
+        
+        const{oldPassword,newPassword,confirmNewPassword} = req.body;
         //validate
-        if(!email || !oldPassword || !newPassword || !confirmNewPassword){
+        if(!oldPassword || !newPassword || !confirmNewPassword){
             return res.status(400).json({
                 success:false,
                 message:"all fields are required"
             })
         }
-        if(newPassword != confirmNewPassword){
+        if(newPassword !== confirmNewPassword){
             return res.status(400).json({
                 success:false,
                 message:"both passwords should match"
             })
         }
         //check if user exists or not
-        const user = await User.findOne({email});
+        const user = await User.findById(userId);
+        console.log("USER DETAIL FROM CHANGE PASSWORD -->", user);
         if(!user){
             return res.status(500).json({
                 success:false,
@@ -294,9 +296,9 @@ exports.changePassword = async(req,res) => {
         await user.save();
         
         //send mail - pwd updated
-        const emailResponse = await mailSender(
-            user.email,passwordUpdate(user.email,"Password Changed",
-        `Password updated successfully for ${user.firstName} ${user.lastName}`)
+        await mailSender(
+            user.email,"Password Changed",
+        passwordUpdated(user.email, `${user.firstName} ${user.lastName}`)
         )
         // const emailBody = `<h2>Password changed successfully</h2>`;
         // await mailSender(email,"Password Changed",emailBody);

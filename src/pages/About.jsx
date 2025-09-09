@@ -4,11 +4,12 @@ import FoundingStory from "../assets/Images/FoundingStory.png"
 import BannerImage1 from "../assets/Images/aboutus1.webp"
 import BannerImage2 from "../assets/Images/aboutus2.webp"
 import BannerImage3 from "../assets/Images/aboutus3.webp"
-// import Footer from "../components/common/Footer"
+import Footer from "../components/common/Footer"
+import ReviewSlider from "../components/common/ReviewSlider"
 import ContactFormSection from "../components/core/AboutPage/ContactFormSection"
 import LearningGrid from "../components/core/AboutPage/LearningGrid"
 import Quote from "../components/core/AboutPage/Quote"
-import StatsComponent from "../components/core/AboutPage/Stats"
+import StatsComponenet from "../components/core/AboutPage/Stats"
 import HighlightText from "../components/core/HomePage/HighlightText"
 
 const About = () => {
@@ -56,7 +57,7 @@ const About = () => {
                 opportunities in a rapidly evolving digital world.
               </p>
               <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
-                As experienced educators ourselves, we witnessed firsthand the
+                We witnessed firsthand the
                 limitations and challenges of traditional education systems. We
                 believed that education should not be confined to the walls of a
                 classroom or restricted by geographical boundaries. We
@@ -93,14 +94,13 @@ const About = () => {
               Our Mission
               </h1>
               <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
-              Our mission goes beyond just delivering courses online. We wanted to create a vibrant community of learners.
-              </p>
+              Our mission goes beyond just delivering courses online. We wanted to create a vibrant community of learners, where individuals can connect, collaborate, and learn from one another. </p>
             </div>
           </div>
         </div>
       </section>
 
-      <StatsComponent />
+      <StatsComponenet />
       <section className="mx-auto mt-20 flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-white">
         <LearningGrid />
         <ContactFormSection />
@@ -111,9 +111,9 @@ const About = () => {
         <h1 className="text-center text-4xl font-semibold mt-8">
           Reviews from other learners
         </h1>
-        {/* <ReviewSlider /> */}
+        <ReviewSlider />
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }

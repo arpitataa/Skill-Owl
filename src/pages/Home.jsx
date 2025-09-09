@@ -10,6 +10,7 @@ import LearningLanguageSection from "../components/core/HomePage/LearningLanguag
 import InstructorSection from '../components/core/HomePage/InstructorSection'
 import Footer from "../components/common/Footer"
 import ExploreMore from "../components/core/HomePage/ExploreMore"
+import ReviewSlider from '../components/common/ReviewSlider'
 
 const Home = () => {
   return (
@@ -65,10 +66,10 @@ const Home = () => {
                 <CodeBlocks 
                     position={"lg:flex-row"}
                     heading={
-                        <div className='text-4xl font-bold'> 
+                        <div className='text-4xl font-semibold'> 
                           Unlock Your 
                           <HighlightText text={"Coding Potential"} />
-                          with our  online courses
+                          with our online courses
                         </div>
                     }
                     subheading={"Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."}
@@ -87,8 +88,9 @@ const Home = () => {
                         }
                     }
 
-                    codeblock={`<!DOCTYPE html>\n<html>\n<head>\n<title>Example</title>\n</head>\n<body>\n<h1>Hello, world!</h1>\n</body>\n</html>`}
-                    codeColour={"text-yellow-25"}
+                codeColor={"text-yellow-25"}
+                codeblock={`<!DOCTYPE html>\n <html lang="en">\n<head>\n<title>This is myPage</title>\n</head>\n<body>\n<h1><a href="/">Header</a></h1>\n<nav> <a href="/one">One</a> <a href="/two">Two</a> <a href="/three">Three</a>\n</nav>\n</body>`}
+                backgroundGradient={<div className="codeblock1 absolute"></div>}
                 />
             </div>
             {/* code section 2*/}
@@ -96,19 +98,20 @@ const Home = () => {
                 <CodeBlocks 
                     position={"lg:flex-row-reverse"}
                     heading={
-                        <div className='text-4xl font-bold'> 
-                          Unlock Your 
-                          <HighlightText text={"Coding Potential"} />
-                          with our  online courses
+                        <div className='w-[100%] text-4xl font-semibold lg:w-[50%]'> 
+                          Start
+                            <HighlightText text={"coding in seconds"} />
                         </div>
                     }
-                    subheading={"Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."}
+                    subheading={
+                    "Go ahead, give it a try. Our hands-on learning environment means you'll be writing real code from your very first lesson."
+                    }
                     ctabtn1={
-                        {
-                            btnText: "Try it Yourself",
-                            linkto:"/signup",
-                            active:true
-                        }
+                    {
+                        btnText: "Continue Lesson",
+                        linkto:"/signup",
+                        active:true
+                    }
                     }
                     ctabtn2={
                         {
@@ -118,8 +121,9 @@ const Home = () => {
                         }
                     }
 
-                    codeblock={`<!DOCTYPE html>\n<html>\n<head>\n<title>Example</title>\n</head>\n<body>\n<h1>Hello, world!</h1>\n</body>\n</html>`}
-                    codeColour={"text-yellow-25"}
+                    codeColor={"text-white"}
+                    codeblock={`import React from "react";\n import CTAButton from "./Button";\nimport TypeAnimation from "react-type";\nimport { FaArrowRight } from "react-icons/fa";\n\nconst Home = () => {\nreturn (\n<div>Home</div>\n)\n}\nexport default Home;`}
+                    backgroundGradient={<div className="codeblock2 absolute"></div>}
                 />
             </div>
 
@@ -190,11 +194,9 @@ const Home = () => {
             <InstructorSection />
             <h2 className='text-center text-4xl font-semibold mt-10'>Review from Other Learners</h2>
 
-            {/* Review Slider here*/}
+        {/* Reviws from Other Learner */}
+            <ReviewSlider />
         </div>
-
-
-
         {/* footer */}
         <Footer />
 

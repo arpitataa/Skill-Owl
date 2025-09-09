@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { RxCross2 } from "react-icons/rx"
+import { FaStar } from "react-icons/fa"
 import ReactStars from "react-rating-stars-component"
 import { useSelector } from "react-redux"
 
@@ -70,12 +71,17 @@ export default function CourseReviewModal({ setReviewModal }) {
             onSubmit={handleSubmit(onSubmit)}
             className="mt-6 flex flex-col items-center"
           >
+            <div className="border border-red-500">
             <ReactStars
-              count={5}
-              onChange={ratingChanged}
-              size={24}
-              activeColor="#ffd700"
+            count={5}
+            onChange={ratingChanged}
+            size={30}
+            isHalf={true}
+            emptyIcon={<FaStar color="#444" />}
+            fullIcon={<FaStar color="#ffd700" />}
             />
+            </div>
+
             <div className="flex w-11/12 flex-col space-y-2">
               <label
                 className="text-sm text-richblack-5"

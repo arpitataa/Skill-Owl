@@ -18,12 +18,10 @@ const Home = () => {
       {/* section 1 */}
       <div className="relative mx-auto flex flex-col w-11/12 max-w-maxContent items-center text-white justify-between">
 
-        {/* Instructor CTA */}
+        {/* Become an Instructor CTA */}
         <Link to={"/signup"}>
-          <div className="group mt-10 sm:mt-16 p-1 mx-auto rounded-full bg-richblack-800 font-bold
-            text-richblack-200 transition-all duration-200 hover:scale-95 w-fit text-sm sm:text-base">
-            <div className="flex flex-row items-center gap-2 rounded-full px-6 sm:px-10 py-[5px]
-              transition-all duration-200 group-hover:bg-richblack-900">
+          <div className="group mt-16 p-1 mx-auto rounded-full bg-richblack-800 font-bold text-richblack-200 transition-all duration-200 hover:scale-95 w-fit">
+            <div className="flex flex-row items-center gap-2 rounded-full px-10 py-[5px] transition-all duration-200 group-hover:bg-richblack-900">
               <p>Become an Instructor</p>
               <FaArrowRight />
             </div>
@@ -31,27 +29,23 @@ const Home = () => {
         </Link>
 
         {/* Hero Heading */}
-        <div className="text-center text-2xl sm:text-4xl font-semibold mt-6 sm:mt-7 px-2">
+        <div className="text-center text-4xl font-semibold mt-7">
           Empower Your Future with <HighlightText text={"Coding Skills "} />
         </div>
 
-        {/* Hero Subtext */}
-        <div className="mt-4 w-full sm:w-[90%] text-center text-sm sm:text-lg font-medium sm:font-bold text-richblack-300 px-3">
+        {/* Subheading */}
+        <div className="mt-4 w-[90%] text-center text-lg font-bold text-richblack-300">
           With our online coding courses, you can learn at your own pace, from anywhere in the world and get access to a wealth of resources, including hands-on projects, quizzes, and personalized feedback from instructors.
         </div>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-7 mt-6 sm:mt-8 w-full sm:w-auto justify-center px-3">
-          <CTAButton active={true} linkto={"/signup"}>
-            Learn More
-          </CTAButton>
-          <CTAButton active={false} linkto={"/login"}>
-            Book a Demo
-          </CTAButton>
+        {/* Hero Buttons */}
+        <div className="flex flex-row gap-7 mt-8">
+          <CTAButton active={true} linkto={"/signup"}>Learn More</CTAButton>
+          <CTAButton active={false} linkto={"/login"}>Book a Demo</CTAButton>
         </div>
 
-        {/* Hero Video */}
-        <div className="mx-3 my-8 sm:my-12 shadow-blue-200 w-full max-w-[1000px]">
+        {/* Banner Video */}
+        <div className="mx-3 my-12 shadow-blue-200 w-full max-w-[1000px]">
           <video
             muted
             loop
@@ -64,11 +58,11 @@ const Home = () => {
         </div>
 
         {/* Code Section 1 */}
-        <div className="w-full max-w-[1000px] px-3">
+        <div className="w-full max-w-[1000px]">
           <CodeBlocks
             position={"lg:flex-row"}
             heading={
-              <div className="text-2xl sm:text-4xl font-semibold">
+              <div className="text-4xl font-semibold">
                 Unlock Your <HighlightText text={"Coding Potential"} /> with our online courses
               </div>
             }
@@ -86,17 +80,17 @@ const Home = () => {
               active: false,
             }}
             codeColor={"text-yellow-25"}
-            codeblock={`<!DOCTYPE html>\n<html lang="en">\n<head>\n<title>This is myPage</title>\n</head>\n<body>\n<h1><a href="/">Header</a></h1>\n<nav> <a href="/one">One</a> <a href="/two">Two</a> <a href="/three">Three</a>\n</nav>\n</body>`}
+            codeblock={`<!DOCTYPE html>\n <html lang="en">\n<head>\n<title>This is myPage</title>\n</head>\n<body>\n<h1><a href="/">Header</a></h1>\n<nav> <a href="/one">One</a> <a href="/two">Two</a> <a href="/three">Three</a>\n</nav>\n</body>`}
             backgroundGradient={<div className="codeblock1 absolute"></div>}
           />
         </div>
 
         {/* Code Section 2 */}
-        <div className="w-full max-w-[1000px] px-3">
+        <div className="w-full max-w-[1000px]">
           <CodeBlocks
             position={"lg:flex-row-reverse"}
             heading={
-              <div className="w-full text-2xl sm:text-4xl font-semibold lg:w-[50%]">
+              <div className="w-[100%] text-4xl font-semibold lg:w-[50%]">
                 Start <HighlightText text={"coding in seconds"} />
               </div>
             }
@@ -119,21 +113,18 @@ const Home = () => {
           />
         </div>
 
-        {/* Explore More */}
         <ExploreMore />
       </div>
 
       {/* section 2 */}
       <div className="bg-pure-greys-5 text-richblack-700">
-        <div className="homepage_bg h-[200px] sm:h-[310px]">
-          <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-4 sm:gap-5 mx-auto">
-            <div className="h-[80px] sm:h-[150px]"></div>
-
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-7 text-white text-sm sm:text-base">
+        <div className="homepage_bg h-[310px]">
+          <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto">
+            <div className="h-[150px]"></div>
+            <div className="flex flex-row gap-7 text-white">
               <CTAButton active={true} linkto={"/signup"}>
-                <div className="flex items-center gap-2 sm:gap-3">
-                  Explore Full Catalog
-                  <FaArrowRight />
+                <div className="flex items-center gap-3">
+                  Explore Full Catalog <FaArrowRight />
                 </div>
               </CTAButton>
               <CTAButton active={false} linkto={"/signup"}>
@@ -143,14 +134,13 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7 px-3">
-          <div className="flex flex-col sm:flex-row gap-6 sm:gap-5 mb-10 mt-[50px] sm:mt-[95px] w-full max-w-[1000px]">
-            <div className="text-2xl sm:text-4xl font-semibold sm:w-[45%] text-center sm:text-left">
+        <div className="mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7">
+          <div className="flex flex-row gap-5 mb-10 mt-[95px] w-full max-w-[1000px]">
+            <div className="text-4xl font-semibold w-[45%]">
               Get the skills you need for a <HighlightText text={"job that is in demand"} />
             </div>
-
-            <div className="flex flex-col gap-6 sm:gap-10 sm:w-[40%] items-center sm:items-start text-center sm:text-left">
-              <div className="text-[14px] sm:text-[16px]">
+            <div className="flex flex-col gap-10 w-[40%] items-start">
+              <div className="text-[16px]">
                 The modern SkillOwl dictates its own terms. Today, being a competitive specialist requires more than professional skills.
               </div>
               <CTAButton active={true} linkto={"/signup"}>
@@ -165,12 +155,10 @@ const Home = () => {
       </div>
 
       {/* section 3 */}
-      <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-6 sm:gap-8 bg-richblack-900 text-white px-3">
+      <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
         <InstructorSection />
-        <h2 className="text-center text-2xl sm:text-4xl font-semibold mt-6 sm:mt-10">
-          Review from Other Learners
-        </h2>
-
+        <h2 className="text-center text-4xl font-semibold mt-10">Review from Other Learners</h2>
+        {/* Reviews from Other Learners */}
         <ReviewSlider />
       </div>
 

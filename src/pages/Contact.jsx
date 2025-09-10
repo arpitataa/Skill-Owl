@@ -8,25 +8,29 @@ import ReviewSlider from "../components/common/ReviewSlider"
 const Contact = () => {
   return (
     <div>
-      <div className="mx-auto mt-20 flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-white lg:flex-row">
+      {/* Contact section */}
+      <div className="mx-auto mt-10 sm:mt-20 flex w-11/12 max-w-maxContent flex-col lg:flex-row justify-between gap-8 sm:gap-10 text-white px-3 sm:px-0">
+        
         {/* Contact Details */}
-        <div className="lg:w-[40%]">
+        <div className="w-full lg:w-[40%]">
           <ContactDetails />
         </div>
 
         {/* Contact Form */}
-        <div className="lg:w-[60%]">
+        <div className="w-full lg:w-[60%]">
           <ContactForm />
         </div>
       </div>
-      <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
-        {/* Reviws from Other Learner */}
-        {/* <h1 className="text-center text-4xl font-semibold mt-8">
+
+      {/* Reviews Section */}
+      <div className="relative mx-auto my-12 sm:my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-6 sm:gap-8 px-3 sm:px-0 bg-richblack-900 text-white rounded-lg py-6 sm:py-10">
+        <h2 className="text-center text-2xl sm:text-4xl font-semibold">
           Reviews from other learners
-        </h1> */}
-        {/* <ReviewSlider /> */}
+        </h2>
         <ReviewSlider />
       </div>
+
+      {/* Footer */}
       <Footer />
     </div>
   )

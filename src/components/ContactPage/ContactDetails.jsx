@@ -6,7 +6,7 @@ import * as Icon2 from "react-icons/io5"
 const contactDetails = [
   {
     icon: "HiChatBubbleLeftRight",
-    heading: "Chat on us",
+    heading: "Chat with us",
     description: "Our friendly team is here to help.",
     details: "arpitananda267@gmail.com",
   },
@@ -14,8 +14,7 @@ const contactDetails = [
     icon: "BiWorld",
     heading: "Visit us",
     description: "Come and say hello at our office HQ.",
-    details:
-      "Silicon University, Silicon Hills, Patia , Bhubaneswar 751024",
+    details: "Silicon University, Silicon Hills, Patia , Bhubaneswar 751024",
   },
   {
     icon: "IoCall",
@@ -27,22 +26,29 @@ const contactDetails = [
 
 const ContactDetails = () => {
   return (
-    <div className="flex flex-col gap-6 rounded-xl bg-richblack-800 p-4 lg:p-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 rounded-xl bg-richblack-800 p-5 sm:p-7 lg:p-10">
       {contactDetails.map((ele, i) => {
         let Icon = Icon1[ele.icon] || Icon2[ele.icon] || Icon3[ele.icon]
         return (
           <div
-            className="flex flex-col gap-[2px] p-3 text-sm text-richblack-200"
             key={i}
+            className="flex flex-col gap-2 rounded-lg bg-richblack-900 p-4 sm:p-5 text-sm text-richblack-200 hover:shadow-lg transition-all duration-200"
           >
+            {/* Icon + Heading */}
             <div className="flex flex-row items-center gap-3">
-              <Icon size={25} />
-              <h1 className="text-lg font-semibold text-richblack-5">
+              <Icon size={28} className="text-yellow-50" />
+              <h1 className="text-base sm:text-lg font-semibold text-richblack-5">
                 {ele?.heading}
               </h1>
             </div>
-            <p className="font-medium">{ele?.description}</p>
-            <p className="font-semibold">{ele?.details}</p>
+
+            {/* Description */}
+            <p className="text-xs sm:text-sm font-medium">{ele?.description}</p>
+
+            {/* Details */}
+            <p className="text-sm sm:text-base font-semibold break-words">
+              {ele?.details}
+            </p>
           </div>
         )
       })}

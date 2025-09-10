@@ -45,7 +45,7 @@ const Home = () => {
         </div>
 
         {/* Banner Video */}
-        <div className="mx-3 my-12 shadow-blue-200 w-full max-w-[1000px]">
+        <div className="mx-3 my-7 shadow-[10px_-5px_50px_-5px] shadow-blue-200 max-w-[1000px]">
           <video
             muted
             loop
@@ -63,7 +63,7 @@ const Home = () => {
             position={"lg:flex-row"}
             heading={
               <div className="text-4xl font-semibold">
-                Unlock Your <HighlightText text={"Coding Potential"} /> with our online courses
+                Unlock Your <HighlightText text={"Coding Potential "} /> with our online courses
               </div>
             }
             subheading={
@@ -121,9 +121,9 @@ const Home = () => {
         <div className="homepage_bg h-[310px]">
           <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto">
             <div className="h-[150px]"></div>
-            <div className="flex flex-row gap-7 text-white">
+            <div className="flex flex-row gap-7 text-white lg:mt-8">
               <CTAButton active={true} linkto={"/signup"}>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   Explore Full Catalog <FaArrowRight />
                 </div>
               </CTAButton>
@@ -135,11 +135,11 @@ const Home = () => {
         </div>
 
         <div className="mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7">
-          <div className="flex flex-row gap-5 mb-10 mt-[95px] w-full max-w-[1000px]">
+          <div className="mb-10 mt-[-100px] flex flex-col justify-between gap-7 lg:mt-20 lg:flex-row lg:gap-0 w-full max-w-[1000px]">
             <div className="text-4xl font-semibold w-[45%]">
-              Get the skills you need for a <HighlightText text={"job that is in demand"} />
+              Get the skills you need for a <HighlightText text={" job that is in demand"} />
             </div>
-            <div className="flex flex-col gap-10 w-[40%] items-start">
+            <div className="flex flex-col gap-10 lg:w-[40%] items-start">
               <div className="text-[16px]">
                 The modern SkillOwl dictates its own terms. Today, being a competitive specialist requires more than professional skills.
               </div>
@@ -155,7 +155,7 @@ const Home = () => {
       </div>
 
       {/* section 3 */}
-      <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
+      <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
         <InstructorSection />
         <h2 className="text-center text-4xl font-semibold mt-10">Review from Other Learners</h2>
         {/* Reviews from Other Learners */}

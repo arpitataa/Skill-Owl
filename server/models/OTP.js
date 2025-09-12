@@ -26,7 +26,7 @@ OTPSchema.index({ email: 1, otp: 1 }, { unique: true });
 
 async function sendVerificationEmail (email,otp) {
     try{
-        const mailResponse = await mailSender(email,"Verification Email from StudyNotion",emailTemplate(otp));
+        const mailResponse = await mailSender(email,"Verification Email from SkillOwl",emailTemplate(otp));
         console.log("email sent successfully:",mailResponse);
     }
     catch(error){

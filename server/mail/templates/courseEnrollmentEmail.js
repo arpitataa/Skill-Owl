@@ -67,7 +67,7 @@ exports.courseEnrollmentEmail = (courseName, name) => {
     
     <body>
         <div class="container">
-            <a href="https://studynotion-edtech-project.vercel.app"><img class="logo" src="../../../src/assets/Logo/rzp_logo.png"
+            <a href="https://skill-owl.vercel.app"><img class="logo" src="../../../src/assets/Logo/rzp_logo.png"
                     alt="SkillOwl Logo"></a>
             <div class="message">Course Registration Confirmation</div>
             <div class="body">
@@ -76,7 +76,7 @@ exports.courseEnrollmentEmail = (courseName, name) => {
                     are excited to have you as a participant!</p>
                 <p>Please log in to your learning dashboard to access the course materials and start your learning journey.
                 </p>
-                <a class="cta" href="https://studynotion-edtech-project.vercel.app/dashboard">Go to Dashboard</a>
+                <a class="cta" href="https://skill-owl.vercel.app/dashboard">Go to Dashboard</a>
             </div>
             <div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a
                     href="mailto:arpitananda267@gmail.com">arpitananda267@gmail.com</a>. We are here to help!</div>

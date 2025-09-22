@@ -74,8 +74,6 @@ exports.contactUsEmail = (
     
     <body>
         <div class="container">
-            <a href="https://skill-owl.vercel.app"><img class="logo"
-                    src="../../../src/assets/Logo/rzp_logo.png" alt="SkillOwl Logo"></a>
             <div class="message">Contact Form Confirmation</div>
             <div class="body">
                 <p>Dear ${firstname} ${lastname},</p>

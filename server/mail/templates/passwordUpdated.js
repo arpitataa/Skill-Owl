@@ -45,9 +45,7 @@ exports.passwordUpdated = (email, fullName) => {
   </head>
   <body>
     <div class="container">
-      <a href="https://skill-owl.vercel.app">
-        <img class="logo" src="../../../src/assets/Logo/rzp_logo.png" alt="SkillOwl Logo" />
-      </a>
+      
       <div class="message">Password Update Confirmation</div>
       <div class="body">
         <p>Hey ${fullName},</p>

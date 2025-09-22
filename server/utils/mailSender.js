@@ -6,12 +6,14 @@ const mailSender = async(email ,title ,body) => {
         let transporter = nodemailer.createTransport({
             host: process.env.MAIL_HOST,
             /* edited parts are port and secure fields*/
-            port: 465,                       // use 465 for SSL
-            secure: true,
+            port: 487,                       // use 465 for SSL
+            secure: false,
             auth : {
                 user:process.env.MAIL_USER,
                 pass:process.env.MAIL_PASS,
-            }
+            },
+            logger: true,   // <--- enables detailed logs
+            debug: true  
         })
         //send mail
         let info = await transporter.sendMail({

@@ -2,19 +2,29 @@ const nodemailer = require("nodemailer");
 
 const mailSender = async(email ,title ,body) => {
     try{
-        //create transport
-        let transporter = nodemailer.createTransport({
-            host: process.env.MAIL_HOST,
-            /* edited parts are port and secure fields*/
-            port: 587,                       // use 465 for SSL
-            secure: false,
-            auth : {
-                user:process.env.MAIL_USER,
-                pass:process.env.MAIL_PASS,
-            },
-            logger: true,   // <--- enables detailed logs
-            debug: true  
-        })
+        // //create transport
+        // let transporter = nodemailer.createTransport({
+        //     host: process.env.MAIL_HOST,
+        //     /* edited parts are port and secure fields*/
+        //     port: 587,                       // use 465 for SSL
+        //     secure: false,
+        //     auth : {
+        //         user:process.env.MAIL_USER,
+        //         pass:process.env.MAIL_PASS,
+        //     },
+        //     logger: true,   // <--- enables detailed logs
+        //     debug: true  
+            
+        // })
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+          user: process.env.MAIL_USER,
+          pass: process.env.MAIL_PASS
+        },
+        logger: true,   // <--- enables detailed logs
+        debug: true 
+      }); 
         //send mail
         let info = await transporter.sendMail({
             /*edited part is the process.env in the from field */
@@ -24,6 +34,7 @@ const mailSender = async(email ,title ,body) => {
             html:`${body}`
         })
         console.log("Email sent:", info.messageId);
+        console.log("MAIL_HOST =", process.env.MAIL_HOST);
         return info;
     } 
     catch (error) {

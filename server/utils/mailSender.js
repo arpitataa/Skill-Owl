@@ -73,20 +73,21 @@ const SibApiV3Sdk = require("sib-api-v3-sdk");
 
 const client = SibApiV3Sdk.ApiClient.instance;
 const apiKey = client.authentications["api-key"];
-apiKey.apiKey = process.env.BREVO_API_KEY;
+apiKey.apiKey = (process.env.BREVO_API_KEY || "").trim();
 
 const tranEmailApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
 const mailSender = async (email, title, body) => {
   try {
     const response = await tranEmailApi.sendTransacEmail({
-      sender: { email: "yourgmail@gmail.com", name: "SkillOwl" },
+      sender: { email: "arpitananda267@gmail.com", name: "SkillOwl" },
       to: [{ email }],
       subject: title,
       htmlContent: body
     });
 
     console.log("Email sent:", response);
+    console.log("BREVO KEY LENGTH:", process.env.BREVO_API_KEY?.length);
     return response;
 
   } catch (error) {
